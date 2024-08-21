@@ -36,3 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 /src/main/java/com/example/diary/DiaryApplication.java
+/src/main/resources/application.properties
+/src/test/java/com/example/diary/DiaryApplicationTests.java
