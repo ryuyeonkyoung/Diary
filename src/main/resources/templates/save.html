@@ -5,5 +5,13 @@
     <title>save</title>
 </head>
 <body>
+<!-- URL 매핑의 목적 -->
+<!-- URL 매핑은 클라이언트의 요청을 처리할 메서드와 연결하여, 요청을 적절한 컨트롤러 메서드로 전달 -->
+<!-- 파일 이름이나 특정 내부 구조가 URL에 노출되는 것을 방지 -->
+<!-- DiaryController의 @PostMapping("/board/save")에서 이 폼 제출 요청을 처리 -->
+<form action="/board/save" method="post" enctype="multipart/form-data">
+    contents: <textarea name="boardContents" cols="30" rows="10"></textarea> <br>
+    <input type="submit" value="일기 작성">
+</form>
 </body>
 </html>
