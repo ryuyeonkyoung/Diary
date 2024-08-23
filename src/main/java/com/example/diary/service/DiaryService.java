@@ -1,8 +1,12 @@
 package com.example.diary.service;
 
+import com.example.diary.dto.DiaryDTO;
+import com.example.diary.entity.DiaryEntity;
 import com.example.diary.repository.DiaryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -12,6 +16,9 @@ public class DiaryService {
     // 효과 - repository에 의존하지만 JpaBoardRepository가 교체되어도 코드를 변경할 필요가 없다
     private final DiaryRepository diaryRepository;
 
+    public void save(DiaryDTO diaryDTO) throws IOException {
+
+    }
 
 }
 

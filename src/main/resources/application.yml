@@ -6,20 +6,11 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db_yeon?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/diary_server?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: 1234
   thymeleaf:
     cache: false
-  #spring:
-  #  datasource:
-  #    driver-class-name: org.h2.Driver
-  #    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
-  #    username: sa
-  #    password:
-  #  thymeleaf:
-  #    cache: false
-
 
   # spring data jpa 설정
   jpa:
