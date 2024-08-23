@@ -5,6 +5,21 @@
   <title>list</title>
 </head>
 <body>
+<table>
+  <tr>
+    <th>id</th>
+    <th>날짜</th>
+    <th>내용</th>
+  </tr>
+  <tr th:each="diary: ${diaryList}">
+    <td th:text="${diary.id}"></td>
+<!--    <td th:text="*{#temporals.format(diary.diaryCreatedTime, 'yyyy-MM-dd HH:mm')}"></td>-->
+    <td th:text="*{#temporals.format(diary.diaryCreatedTime, 'HH : mm')}"></td>
+    <td th:text="${diary.diaryContents}"></td>
+  </tr>
+</table>
 
 </body>
+<script>
+</script>
 </html>
