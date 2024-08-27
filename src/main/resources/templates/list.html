@@ -5,21 +5,22 @@
   <title>list</title>
 </head>
 <body>
-<table>
-  <tr>
-    <th>id</th>
-    <th>날짜</th>
-    <th>내용</th>
-  </tr>
-  <tr th:each="diary: ${diaryList}">
-    <td th:text="${diary.id}"></td>
-<!--    <td th:text="*{#temporals.format(diary.diaryCreatedTime, 'yyyy-MM-dd HH:mm')}"></td>-->
-    <td th:text="*{#temporals.format(diary.diaryCreatedTime, 'HH : mm')}"></td>
-    <td th:text="${diary.diaryContents}"></td>
-  </tr>
-</table>
+<div th:with="previousDiary=${null}">
+  <div th:each="diary, diaryStat: ${diaryList}">
+    <!-- 날짜가 변경될 때만 날짜를 출력 -->
+    <div th:if="${diaryStat.index == 0 or #temporals.format(diary.diaryCreatedTime, 'yyyyMMdd') != #temporals.format(diaryList[diaryStat.index - 1].diaryCreatedTime, 'yyyyMMdd')}">
+      <span th:text="*{#temporals.format(diary.diaryCreatedTime, 'yyyy년 MM월 dd일')}"></span>
+    </div>
 
+    <!-- 일기 내용을 담는 말풍선 형식 -->
+    <div style="margin: 10px; padding: 10px; border: 1px solid #ccc;">
+      <p><span th:text="*{#temporals.format(diary.diaryCreatedTime, 'HH:mm')}"></span></p>
+      <textarea rows="5" cols="40" readonly th:text="${diary.diaryContents}"></textarea>
+    </div>
+
+    <!-- 현재 항목을 이전 항목으로 저장 -->
+    <div th:with="previousDiary=${diary}"></div>
+  </div>
+</div>
 </body>
-<script>
-</script>
 </html>

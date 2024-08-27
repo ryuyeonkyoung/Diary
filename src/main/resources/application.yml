@@ -6,16 +6,13 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/diary_server?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/test1?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 1234
   thymeleaf:
     cache: false
-
-  # spring data jpa 설정
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
     open-in-view: false
-    show-sql: true
+    show-sql: true # 디버깅용. Hibernate가 실행하는 SQL 쿼리를 콘솔에 출력
     hibernate:
       ddl-auto: update #한번 create로 실행하고 난 뒤에는 update

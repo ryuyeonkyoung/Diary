@@ -65,5 +65,7 @@ public class DiaryService {
         } else return null;
     }
 
+    public void delete(Long id) {diaryRepository.deleteById(id);}
+
 }
 
