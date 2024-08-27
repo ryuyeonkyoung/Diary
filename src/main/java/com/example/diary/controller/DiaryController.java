@@ -44,4 +44,11 @@ public class DiaryController {
         return "redirect:/board/";
     }
 
+    @PostMapping("/update")
+    public String update(@ModelAttribute DiaryDTO diaryDTO, Model model) {
+        DiaryDTO diary = diaryService.update(diaryDTO);
+        model.addAttribute("diary", diary);
+        return "redirect:/board/";
+    }
+
 }
