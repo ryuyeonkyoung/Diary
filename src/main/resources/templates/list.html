@@ -5,7 +5,7 @@
   <title>list</title>
 </head>
 <body>
-<div th:with="previousDiary=${null}">
+<div>
   <div th:each="diary, diaryStat: ${diaryList}">
     <!-- 날짜가 변경될 때만 날짜를 출력 -->
     <div th:if="${diaryStat.index == 0 or #temporals.format(diary.diaryCreatedTime, 'yyyyMMdd') != #temporals.format(diaryList[diaryStat.index - 1].diaryCreatedTime, 'yyyyMMdd')}">
@@ -13,14 +13,19 @@
     </div>
 
     <!-- 일기 내용을 담는 말풍선 형식 -->
-    <div style="margin: 10px; padding: 10px; border: 1px solid #ccc;">
+    <div style="margin: 10px; padding: 10px; border: 1px solid #dbce1e;">
       <p><span th:text="*{#temporals.format(diary.diaryCreatedTime, 'HH:mm')}"></span></p>
       <textarea rows="5" cols="40" readonly th:text="${diary.diaryContents}"></textarea>
+      <button th:onclick="deleteReq([[${diary.id}]])">삭제</button>
     </div>
 
-    <!-- 현재 항목을 이전 항목으로 저장 -->
-    <div th:with="previousDiary=${diary}"></div>
   </div>
 </div>
 </body>
+<script>
+  const deleteReq = (id) => {
+    console.log(id +" 삭제 요청");
+    location.href = "/board/delete/" + id;
+  }
+</script>
 </html>
