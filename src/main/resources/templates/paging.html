@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="saveReq()">글작성</button>
+
+<div>
+    <div th:each="diary, diaryStat: ${diaryList}">
+        <!-- 날짜가 변경될 때만 날짜를 출력 -->
+        <div th:if="${diaryStat.index == 0 or #temporals.format(diary.diaryCreatedTime, 'yyyyMMdd') != #temporals.format(diaryList[diaryStat.index - 1].diaryCreatedTime, 'yyyyMMdd')}">
+            <span th:text="*{#temporals.format(diary.diaryCreatedTime, 'yyyy년 MM월 dd일')}"></span>
+        </div>
+
+        <!-- 일기 내용을 담는 말풍선 형식 -->
+        <form action="/diary/update" method="post" name="updateForm">
+            <div style="margin: 10px; padding: 10px; border: 1px solid rgba(160,160,160,0.65);">
+                <input type="hidden" name="id" th:value="${diary.id}">
+                <p><span th:text="*{#temporals.format(diary.diaryCreatedTime, 'HH:mm')}"></span></p>
+                <textarea name="diaryContents" rows="5" cols="40" th:text="${diary.diaryContents}"></textarea>
+                <br>
+                <button th:onclick="deleteReq([[${diary.id}]])">삭제</button>
+                <input type="submit" value="수정">
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 첫번째 페이지로 이동 -->
+<!-- /diary/paging?page=1 , thymeleaf 문법-->
+<a th:href="@{/diary/paging(page=1)}">First</a>
+<!-- 이전 링크 활성화 비활성화 -->
+<!-- diaryList.getNumber() 사용자:2페이지 getNumber()=1 -->
+<a th:href="${diaryList.first} ? '#' : @{/diary/paging(page=${diaryList.number})}">prev</a>
+
+<!-- 페이지 번호 링크(현재 페이지는 숫자만) for문
+        for(int page=startPage; page<=endPage; page++)-->
+<span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+    <!-- 현재페이지는 링크X -->
+    <span th:if="${page == diaryList.number + 1}" th:text="${page}"></span>
+    <!-- 현재페이지가 아니면 링크O -->
+    <span th:unless="${page == diaryList.number + 1}">
+        <a th:href="@{/diary/paging(page=${page})}" th:text="${page}"></a>
+    </span>
+</span>
+
+<!-- 다음 링크 활성화 비활성화
+    사용자: 2페이지, getNumber: 1, 3페이지-->
+<a th:href="${diaryList.last} ? '#' : @{/diary/paging(page=${diaryList.number + 2})}">next</a>
+<!-- 마지막 페이지로 이동 -->
+<a th:href="@{/diary/paging(page=${diaryList.totalPages})}">Last</a>
+
+</body>
+<script>
+    const saveReq = () => {
+        location.href = "/diary/save";
+    }
+
+</script>
+</html>

@@ -13,7 +13,7 @@
     </div>
 
     <!-- 일기 내용을 담는 말풍선 형식 -->
-    <form action="/board/update" method="post" name="updateForm">
+    <form action="/diary/update" method="post" name="updateForm">
       <div style="margin: 10px; padding: 10px; border: 1px solid rgba(160,160,160,0.65);">
         <input type="hidden" name="id" th:value="${diary.id}">
         <p><span th:text="*{#temporals.format(diary.diaryCreatedTime, 'HH:mm')}"></span></p>
@@ -29,7 +29,7 @@
 <script th:inline="javascript">
   const deleteReq = (id) => {
     console.log(id + " 삭제 요청");
-    location.href = "/board/delete/" + id;
+    location.href = "/diary/delete/" + id;
   }
 </script>
 </html>

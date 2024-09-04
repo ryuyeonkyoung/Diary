@@ -5,6 +5,10 @@ import com.example.diary.entity.DiaryEntity;
 import com.example.diary.repository.DiaryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,9 +19,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class DiaryService {
-    // 전통적인 의존성 구조 - DiaryService가 JpaBoardRepository같은 구체적인 구현체에 의존
+    // 전통적인 의존성 구조 - DiaryService가 JpadiaryRepository같은 구체적인 구현체에 의존
     // DIP - DiaryService가 추상화(인터페이스 DiaryRepository)에 의존
-    // 효과 - repository에 의존하지만 JpaBoardRepository가 교체되어도 코드를 변경할 필요가 없다
+    // 효과 - repository에 의존하지만 JpadiaryRepository가 교체되어도 코드를 변경할 필요가 없다
     private final DiaryRepository diaryRepository;
 
     public void save(DiaryDTO diaryDTO) throws IOException {
@@ -66,6 +70,27 @@ public class DiaryService {
     }
 
     public void delete(Long id) {diaryRepository.deleteById(id);}
+
+    public Page<DiaryDTO> paging(Pageable pageable) {
+        int page = pageable.getPageNumber() - 1; // 0부터 시작
+        int pageLimit = 3; // 페이지당 보여줄 글 개수
+        Page<DiaryEntity> diaryEntities =
+                diaryRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
+
+        System.out.println("diaryEntities.getContent() = " + diaryEntities.getContent()); // 요청 페이지에 해당하는 글
+        System.out.println("diaryEntities.getTotalElements() = " + diaryEntities.getTotalElements()); // 전체 글갯수
+        System.out.println("diaryEntities.getNumber() = " + diaryEntities.getNumber()); // DB로 요청한 페이지 번호
+        System.out.println("diaryEntities.getTotalPages() = " + diaryEntities.getTotalPages()); // 전체 페이지 갯수
+        System.out.println("diaryEntities.getSize() = " + diaryEntities.getSize()); // 한 페이지에 보여지는 글 갯수
+        System.out.println("diaryEntities.hasPrevious() = " + diaryEntities.hasPrevious()); // 이전 페이지 존재 여부
+        System.out.println("diaryEntities.isFirst() = " + diaryEntities.isFirst()); // 첫 페이지 여부
+        System.out.println("diaryEntities.isLast() = " + diaryEntities.isLast()); // 마지막 페이지 여부
+
+        // 목록: id, writer, title, hits, createdTime
+        //map 메소드로 entity를 diaryDTO로 바꿔줌
+        Page<DiaryDTO> diaryDTOS = diaryEntities.map(diary -> new DiaryDTO(diary.getId(), diary.getCreatedTime()));
+        return diaryDTOS;
+    }
 
 }
 
