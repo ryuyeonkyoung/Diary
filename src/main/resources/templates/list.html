@@ -7,23 +7,27 @@
 <body>
 <div>
   <div th:each="diary, diaryStat: ${diaryList}">
-    <!-- 날짜가 변경될 때만 날짜를 출력 -->
-    <div th:if="${diaryStat.index == 0 or #temporals.format(diary.diaryCreatedTime, 'yyyyMMdd') != #temporals.format(diaryList[diaryStat.index - 1].diaryCreatedTime, 'yyyyMMdd')}">
+    <!-- 이전 데이터와 날짜가 같지 않을 때만 출력 -->
+    <div th:if="${diaryStat.index == 0 or #temporals.format(diaryList[diaryStat.index].diaryCreatedTime, 'yyyyMMdd') != #temporals.format(diaryList[diaryStat.index - 1].diaryCreatedTime, 'yyyyMMdd')}">
       <span th:text="*{#temporals.format(diary.diaryCreatedTime, 'yyyy년 MM월 dd일')}"></span>
     </div>
-
-    <!-- 일기 내용을 담는 말풍선 형식 -->
+    <!-- 말풍선으로 일기 내용 보여주기 -->
+    <!-- deleteReq메소드를 위해 hidden태그로 id 받기-->
     <form action="/diary/update" method="post" name="updateForm">
       <div style="margin: 10px; padding: 10px; border: 1px solid rgba(160,160,160,0.65);">
         <input type="hidden" name="id" th:value="${diary.id}">
         <p><span th:text="*{#temporals.format(diary.diaryCreatedTime, 'HH:mm')}"></span></p>
         <textarea name="diaryContents" rows="5" cols="40" th:text="${diary.diaryContents}"></textarea>
+
         <br>
+        <!-- 버튼 모음 -->
         <button th:onclick="deleteReq([[${diary.id}]])">삭제</button>
         <input type="submit" value="수정">
       </div>
     </form>
   </div>
+
+  <button th:onclick="save.html">일기작성</button>
 </div>
 </body>
 <script th:inline="javascript">
