@@ -26,14 +26,19 @@
       </div>
     </form>
   </div>
-
-  <button th:onclick="save.html">일기작성</button>
+</div>
+<div>
+  <button th:onclick="createReq()">생성</button>
 </div>
 </body>
 <script th:inline="javascript">
   const deleteReq = (id) => {
     console.log(id + " 삭제 요청");
     location.href = "/diary/delete/" + id;
+  }
+  const createReq = () => {
+    console.log("생성 요청");
+    location.href = "/diary/save/";
   }
 </script>
 </html>
