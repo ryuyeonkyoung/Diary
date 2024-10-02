@@ -28,7 +28,7 @@
   </div>
 </div>
 <div>
-  <button th:onclick="createReq()">생성</button>
+  <button th:onclick="saveReq()">생성</button>
 </div>
 </body>
 <script th:inline="javascript">
@@ -36,9 +36,9 @@
     console.log(id + " 삭제 요청");
     location.href = "/diary/delete/" + id;
   }
-  const createReq = () => {
+  const saveReq = () => {
     console.log("생성 요청");
-    location.href = "/diary/save/";
+    location.href = "/diary/save";
   }
 </script>
 </html>
